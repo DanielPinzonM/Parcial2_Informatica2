@@ -23,10 +23,10 @@ char Casilla::RepresentarContenido(){
 
         case Contenido::FichaNegra:
             return '+';
-            
+
         case Contenido::PosibleJugada:
-            return '_';
-            
+            return '=';
+
         default:
             return '.';
         }
