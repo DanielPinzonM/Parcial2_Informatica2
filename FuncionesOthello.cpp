@@ -422,7 +422,7 @@ void GuardarRegistro(string *Jugadores, string *Ganador, short int *CantFichas){
 
     try{
 
-        archivo.open("C:/Users/ASUS/Documents/Parcial_2/Registros.txt", ios::app);
+        archivo.open("Registros.txt", ios::app);
 
         if (!archivo.is_open()){
             throw '1';
