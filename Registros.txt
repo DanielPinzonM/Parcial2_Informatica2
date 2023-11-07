@@ -1,0 +1,15 @@
+11-07-2023 12:46:22
+Jugador 1 (Fichas Negras): Pepe
+Jugador 2 (Fichas Blancas): juan
+Ganador: Pepe con 51 fichas
+
+11-07-2023 13:21:00
+Jugador 1 (Fichas Negras): Daniel
+Jugador 2 (Fichas Blancas): Alfredo
+Ganador: Alfredo con 49 fichas
+
+11-07-2023 13:32:30
+Jugador 1 (Fichas Negras): Ana
+Jugador 2 (Fichas Blancas): Felipe
+Ganador: Felipe con 36 fichas
+
