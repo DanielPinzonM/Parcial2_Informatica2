@@ -6,9 +6,10 @@ const short int TamanoTablero = 8;
 using namespace std;
 
 void MostrarTablero(Casilla **Tablero);
-void ComprobarJugadas(Casilla **Tablero, Contenido Cont);
+void ComprobarJugadas(Casilla **Tablero, Contenido Cont, bool* PuedeJugar);
 void RealizarMovimiento(Casilla **Tablero, short int *Fila, short int *Columna, Contenido Cont);
 void LimpiarPosiblesJugadas(Casilla **Tablero);
+void DeterminarGanador(Casilla **Tablero);
 
 int main() {
 
@@ -27,65 +28,100 @@ int main() {
 
     char JugadorActual = '1';
     short int fila, columna;
+    bool PuedeJugar1 = false;
+    bool PuedeJugar2 = false;
 
     while (true) {
 
         if (JugadorActual == '1'){
 
-            ComprobarJugadas(Tablero, Contenido::FichaNegra);
-            MostrarTablero(Tablero);
+            PuedeJugar1 = false;
+            ComprobarJugadas(Tablero, Contenido::FichaNegra, &PuedeJugar1);
 
-            cout << "\n\n\nEs el turno del jugador 1 (Fichas Negras(X))\n";
-            cout << "Ingresa la fila y la columna del movimiento(ejemplo: 3 4): ";
-            cin >> fila >> columna;
+            while (PuedeJugar1 == true){
 
-            if (fila < 0 || fila >= TamanoTablero || columna < 0 || columna >= TamanoTablero) {
+                MostrarTablero(Tablero);
+                cout << "\n\n\nEs el turno del jugador 1 (Fichas Negras(X))\n";
+                cout << "Ingresa la fila y la columna del movimiento(ejemplo: 3 4): ";
+                cin >> fila >> columna;
 
-                cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-                cout << "Movimiento inválido. Inténtalo de nuevo.\n";
-            }
-            else{
-                if (Tablero[fila][columna].getContenido() == Contenido::PosibleJugada){
-                    RealizarMovimiento(Tablero, &fila, &columna, Contenido::FichaNegra);
-                    LimpiarPosiblesJugadas(Tablero);
-                    MostrarTablero(Tablero);
-                    JugadorActual += 1;
-                    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-                }
-                else{
+                fila = fila-1;
+                columna = columna -1;
+
+                if (fila < 0 || fila >= TamanoTablero || columna < 0 || columna >= TamanoTablero) {
+
                     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
                     cout << "Movimiento inválido. Inténtalo de nuevo.\n";
                 }
+                else{
+                    if (Tablero[fila][columna].getContenido() == Contenido::PosibleJugada){
+                        RealizarMovimiento(Tablero, &fila, &columna, Contenido::FichaNegra);
+                        MostrarTablero(Tablero);
+                        JugadorActual += 1;
+                        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                        break;
+                    }
+                    else{
+                        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                        cout << "Movimiento inválido. Inténtalo de nuevo.\n";
+                    }
+                }
             }
 
+            if (PuedeJugar1 == false){
+                MostrarTablero(Tablero);
+                cout << "No tiene jugadas disponibles, se pasará el turno al siguiente jugador.\nIngrese 1 para continuar: ";
+                cin >> fila;
+                JugadorActual +=1;
+            }
         }
+
         else if (JugadorActual == '2'){
 
-            ComprobarJugadas(Tablero, Contenido::FichaBlanca);
-            MostrarTablero(Tablero);
+            PuedeJugar2 = false;
+            ComprobarJugadas(Tablero, Contenido::FichaBlanca, &PuedeJugar2);
 
-            cout << "\n\n\nEs el turno del jugador 2 (Fichas Negras(O))\n";
-            cout << "Ingresa la fila y la columna del movimiento(ejemplo:3 4): ";
-            cin >> fila >> columna;
+            while (PuedeJugar2 == true){
 
-            if (fila < 0 || fila >= TamanoTablero || columna < 0 || columna >= TamanoTablero) {
+                MostrarTablero(Tablero);
+                cout << "\n\n\nEs el turno del jugador 2 (Fichas Blancas(O))\n";
+                cout << "Ingresa la fila y la columna del movimiento(ejemplo: 3 4): ";
+                cin >> fila >> columna;
 
-                cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-                cout << "Movimiento inválido. Inténtalo de nuevo.\n";
-            }
-            else{
-                if (Tablero[fila][columna].getContenido() == Contenido::PosibleJugada){
-                    RealizarMovimiento(Tablero, &fila, &columna, Contenido::FichaBlanca);
-                    LimpiarPosiblesJugadas(Tablero);
-                    MostrarTablero(Tablero);
-                    JugadorActual -= 1;
-                    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-                }
-                else{
+                fila = fila-1;
+                columna = columna -1;
+
+                if (fila < 0 || fila >= TamanoTablero || columna < 0 || columna >= TamanoTablero) {
+
                     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
                     cout << "Movimiento inválido. Inténtalo de nuevo.\n";
                 }
+                else{
+                    if (Tablero[fila][columna].getContenido() == Contenido::PosibleJugada){
+                        RealizarMovimiento(Tablero, &fila, &columna, Contenido::FichaBlanca);
+                        LimpiarPosiblesJugadas(Tablero);
+                        JugadorActual -= 1;
+                        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                        break;
+                    }
+                    else{
+                        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                        cout << "Movimiento inválido. Inténtalo de nuevo.\n";
+                    }
+                }
             }
+
+            if (PuedeJugar2 == false){
+                MostrarTablero(Tablero);
+                cout << "No tiene jugadas disponibles, se pasará el turno al siguiente jugador.\nIngrese 1 para continuar: ";
+                cin >> fila;
+                JugadorActual +=1;
+            }
+        }
+
+        if (PuedeJugar1 == false && PuedeJugar2 == false){
+
+            break;
         }
     }
 
@@ -95,7 +131,7 @@ int main() {
 
 void MostrarTablero(Casilla **Tablero){
 
-    cout << "         A B C D E F G H \n\n";
+    cout << "         1 2 3 4 5 6 7 8 \n\n";
 
     for (int i = 0; i < TamanoTablero; i++) {
 
@@ -107,10 +143,10 @@ void MostrarTablero(Casilla **Tablero){
         cout << "  " << i+1 << "\n";
     }
 
-    cout << "\n         A B C D E F G H";
+    cout << "\n         1 2 3 4 5 6 7 8";
 }
 
-void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
+void ComprobarJugadas(Casilla **Tablero, Contenido Cont, bool* PuedeJugar){
 
     for (short int i = 0; i < TamanoTablero; i++) {
         for (short int j = 0; j < TamanoTablero; j++) {
@@ -129,6 +165,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[Factual][j].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -148,6 +187,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[Factual][j].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -167,6 +209,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[i][Cactual].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -186,12 +231,14 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[i][Cactual].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
                         }
                     }
-
                 }
 
                 if (i>1 && j>1){ //Diagonal superior izquierda
@@ -205,6 +252,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[FCactual][j-(i-FCactual)].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -224,6 +274,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[FCactual][j+(FCactual-i)].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -243,12 +296,14 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[FCactual][j+(i-FCactual)].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
                         }
                     }
-
                 }
 
                 if ((i<TamanoTablero-2) && j>1){ //Diagonal inferior izquierda
@@ -262,6 +317,9 @@ void ComprobarJugadas(Casilla **Tablero, Contenido Cont){
                                 break;
                             }
                             else{
+                                if (*PuedeJugar == false){
+                                    *PuedeJugar = true;
+                                }
                                 Tablero[FCactual][j-(FCactual-i)].setContenido(Contenido::PosibleJugada);
                                 break;
                             }
@@ -338,7 +396,7 @@ void RealizarMovimiento(Casilla **Tablero, short int *Fila, short int *Columna, 
     }
 
     if (*Columna>1){ //Columnas a la izquierda
-        for (short int Cactual = *Columna-1; Cactual > 0; Cactual--){
+        for (short int Cactual = *Columna-1; Cactual >= 0; Cactual--){
 
             if (Tablero[*Fila][Cactual].getContenido() == Contenido::NoOcupada || Tablero[*Fila][Cactual].getContenido() == Contenido::PosibleJugada){
                 break;
@@ -448,4 +506,36 @@ void LimpiarPosiblesJugadas(Casilla **Tablero){
             }
         }
     }
+}
+
+void DeterminarGanador(Casilla **Tablero){
+
+    short int NumFichasN = 0;
+    short int NumFichasB = 0;
+
+    for (short int i = 0; i < TamanoTablero; i++){
+        for (short int j = 0; j < TamanoTablero; j++){
+
+            if (Tablero[i][j].getContenido() == Contenido::FichaNegra){
+                NumFichasN += 1;
+            }
+            else{
+                NumFichasB += 1;
+            }
+        }
+    }
+
+    if (NumFichasN > NumFichasB){
+
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "                     JUGADOR 1 GANADOR";
+        cout << " El jugador de fichas negras gana la partina con " << NumFichasN << " Fichas.";
+    }
+    else{
+
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "                     JUGADOR 2 GANADOR";
+        cout << " El jugador de fichas blancas gana la partina con " << NumFichasN << " Fichas.";
+    }
+
 }

@@ -19,15 +19,15 @@ char Casilla::RepresentarContenido(){
         switch (Cont) {
 
         case Contenido::FichaBlanca:
-            return 'o';
+            return 'O';
 
         case Contenido::FichaNegra:
-            return '+';
+            return 'X';
 
         case Contenido::PosibleJugada:
-            return '=';
+            return '°';
 
         default:
-            return '.';
+            return '-';
         }
     }
